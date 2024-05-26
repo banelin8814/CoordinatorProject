@@ -29,10 +29,10 @@ class FirstViewController: UIViewController {
                                             y: 500,
                                             width: 200,
                                             height: 60))
-        button.setTitleColor(.systemBlue,
-                             for: .normal)
-        button.setTitle("Go to Detail",
-                        for: .normal)
+        
+        button.setTitleColor(.systemBlue, for: .normal)
+        
+        button.setTitle("Go to Detail", for: .normal)
         
         button.addTarget(self,
                          action: #selector(buttonAction),
@@ -46,7 +46,8 @@ class FirstViewController: UIViewController {
         self.view.addSubview(infoLabel)
         self.infoLabel = infoLabel
         
-        viewModel.$email.combineLatest(viewModel.$name)
+        
+        viewModel.$email.combineLatest(viewModel.$name) //當這些屬性任何一個的值改變時
             .sink { [weak self] (email, name) in
                 if name.count + email.count > 0 {
                     self?.infoLabel?.text = "\(name) with email \(email)"

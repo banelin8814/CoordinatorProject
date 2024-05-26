@@ -21,10 +21,10 @@ class MainCoordinator: Coordinator {
     }
     
     func start() {
-        let firstCoordinator = FirstTabCoordinator()
-        firstCoordinator.start() //createViewController
-        self.childCoordinator.append(firstCoordinator)
-        let firstViewController = firstCoordinator.rootViewController
+        let firstCoordinator = FirstTabCoordinator()  // 1:實例化下一層coordinator
+        firstCoordinator.start() // 2: 創建VC
+        self.childCoordinator.append(firstCoordinator) // 3: 新增childCoordinator
+        let firstViewController = firstCoordinator.rootViewController // 4: 把coordinatar裡面的VC做
         setup(vc: firstViewController,
               title: "FirstTab",
               imageName: "paperplane",

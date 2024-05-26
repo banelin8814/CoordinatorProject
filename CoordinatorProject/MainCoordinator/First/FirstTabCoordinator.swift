@@ -23,20 +23,20 @@ class FirstTabCoordinator: NSObject, Coordinator {
     
     lazy var firstViewController: FirstViewController = {
        let vc = FirstViewController()
-        vc.viewModel = viewModel
-        vc.showDetailRequested = { [weak self] in
+        vc.viewModel = viewModel //注入VM
+
+        vc.showDetailRequested = { [weak self] in //用 closure 請 FirstTabCoordinator 導覽到 detailViewController
             self?.goToDetail()
         }
         vc.title = "First title"
         return vc
     }()
     
-    
     func start() {
         rootViewController.setViewControllers([firstViewController], animated: false)
     }
     
-    func goToDetail() {
+    func goToDetail() { //注入VM
         let detailViewController = UIHostingController(rootView: FirstDetailView(viewModel: viewModel))
         rootViewController.pushViewController(detailViewController, animated: true)
     }

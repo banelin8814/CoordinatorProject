@@ -8,7 +8,7 @@
 import Foundation
 
 class FirstTabViewModel: ObservableObject {
-    
+    //對這些屬性的任何更改都會觸發通知給觀察它們的視圖。
     @Published var name: String = ""
     @Published var email: String = ""
     

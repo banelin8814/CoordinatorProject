@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct FirstDetailView: View {
-    
+    //觀察者
     @ObservedObject var viewModel: FirstTabViewModel
     
     var body: some View {
         
         VStack {
             Text("First Detail")
-            // 使用者輸入
+            //使用者編輯後，改變ViewModel狀態
             TextField("name", text: $viewModel.name)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
              

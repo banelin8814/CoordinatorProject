@@ -13,9 +13,14 @@ class ApplicationCoordinator: Coordinator {
     let window: UIWindow
     
     var childCoordinators = [Coordinator]()
-    //是 Combine 框架中的一種發布者（Publisher），它會持有一個當前值(false)，並在值改變時發出通知。
+    
+    //是 Combine 框架中的一種發布者（Publisher），
+    //它會持有一個預設值(false)，並在值改變時發出通知。
     var hasSeenOnboarding = CurrentValueSubject<Bool,Never>(false)
-    //用於存儲訂閱（Subscription）的引用，以便在適當的時候取消訂閱，避免記憶體洩漏，當不再需要這些訂閱時,subscriptions 這個集合會被自動釋放。
+    
+    //用於存儲訂閱（Subscription）的引用，
+    //以便在適當的時候取消訂閱，避免記憶體洩漏，
+    //當不再需要這些訂閱時,subscriptions 這個集合會被自動釋放。
     var subscriptions = Set<AnyCancellable>()
     
     init(window: UIWindow) {
@@ -30,12 +35,13 @@ class ApplicationCoordinator: Coordinator {
             .removeDuplicates() //連續一樣的就不執行，例如false, false / 0,0
             .sink { [weak self] hasSeen in
             if hasSeen {
-                let mainCoordinator = MainCoordinator()
-                mainCoordinator.start()
-                self?.childCoordinators = [mainCoordinator]
-                self?.window.rootViewController = mainCoordinator.rootViewController
+                let mainCoordinator = MainCoordinator() // 1:實例化下一層coordinator
+                mainCoordinator.start() // 2: 創建VC
+                self?.childCoordinators = [mainCoordinator] // 3: 保持對childCoordinators的引用
+                self?.window.rootViewController = mainCoordinator.rootViewController // 4: 設定VC 
+                
             } else if let hasSeenOnboarding = self?.hasSeenOnboarding {
-                let onboardingCoordinator = OnboadingCoordinator(hasSeenOnboarding: hasSeenOnboarding) //在實例化的時候，把自己的hasSeenOnboarding傳給OnboadingCoordinator的hasSeenOnboarding
+                let onboardingCoordinator = OnboadingCoordinator(hasSeenOnboarding: hasSeenOnboarding)
                 onboardingCoordinator.start()
                 self?.childCoordinators = [onboardingCoordinator]
                 self?.window.rootViewController = onboardingCoordinator.rootViewController
